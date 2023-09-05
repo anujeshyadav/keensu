@@ -467,9 +467,9 @@ class AppRouter extends React.Component {
     let data = localStorage.getItem("astroId");
     sessionStorage.clear();
     if (data === undefined || data === null) {
-      history.push("/#/pages/login");
+      // history.push("/#/pages/login");
       // localStorage.clear();
-      window.location.replace("/#/pages/login");
+      // window.location.replace("/#/pages/login");
       // window.location.reload();
     }
   }
@@ -1146,7 +1146,7 @@ class AppRouter extends React.Component {
             />
             <AppRoute
               exact={true}
-              path="/pages/login"
+              // path="/pages/login"
               component={Login}
               fullLayout
             />

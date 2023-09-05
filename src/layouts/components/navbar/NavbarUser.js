@@ -53,7 +53,7 @@ const NavbarUser = () => {
         console.log(res.data);
         localStorage.removeItem("astroId");
         localStorage.removeItem("astroData");
-        window.location.replace("/#/pages/login");
+        // window.location.replace("/#/pages/login");
       })
       .catch((err) => {
         console.log(err.response.data);
