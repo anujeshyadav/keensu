@@ -22,7 +22,8 @@ function YourliveStream() {
 
   const rtcProps = {
     // Pass your App ID here.
-    appId: "7d1f07c76f9d46be86bc46a791884023",
+    appId: "211ddf5d3ed341acaf8f7608e94b7c91",
+    // appId: "7d1f07c76f9d46be86bc46a791884023",
     // Set the channel name.
     channel: channelNamecreated,
     enableVideo: true,
@@ -64,11 +65,13 @@ function YourliveStream() {
 
   const handlestatus = (e) => {
     e.preventDefault();
+    debugger;
     console.log(param.id);
     const astroid = localStorage.getItem("astroId");
     const payload = {
       // astroAccount: astroid,
-      astroAccount: param.id,
+      astroAccount: "1",
+      // astroAccount: param.id,
       status: true,
     };
 
@@ -126,7 +129,7 @@ function YourliveStream() {
   return (
     <div className="videocallmain mt-2">
       <Card>
-        <Row>
+        <Row className="mt-2">
           <Col lg="4" md="4" sm="4">
             <div className="container mt-2 mb-1">
               <Button onClick={(e) => handlestatus(e)} color="success">
