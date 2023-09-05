@@ -114,13 +114,14 @@ function YourliveStream() {
     const liveidnew = localStorage.getItem("liveid");
     console.log(liveidnew);
     axiosConfig
-      .get(`/user/disConnectLiveStream/${liveidnew}`)
+      // .get(`/user/disConnectLiveStream/${liveidnew}`)
+      .get(`/user/disConnectLiveStream/1`)
       .then((res) => {
         console.log(res.data);
-        setlivestraming(false);
-        localStorage.removeItem("liveid");
-        // window.location.replace("/");
         window.close();
+        // setlivestraming(false);
+        // localStorage.removeItem("liveid");
+        // window.location.replace("/");
       })
       .catch((err) => {
         console.log(err.response);
@@ -210,7 +211,9 @@ function YourliveStream() {
                       height: "80vh",
                     }}
                   >
-                    <div>{/* <LiveChat /> */}</div>
+                    <div>
+                      <LiveChat />
+                    </div>
                   </div>
                 </div>
               </div>
