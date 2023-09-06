@@ -18,7 +18,6 @@ function YourliveStream() {
   const [view, setview] = useState(false);
   const [listofchannel, setlistofchannel] = useState();
   const param = useParams();
-  console.log(param.id);
 
   const rtcProps = {
     // Pass your App ID here.
@@ -49,13 +48,20 @@ function YourliveStream() {
 
   const callbacks = {
     EndCall: () => {
-      setVideoCall(false);
-      const astroid = localStorage.getItem("astroId");
       axiosConfig
-        .get(`/user/disConnectLiveStream/${liveid}`)
+        .delete(`/user/dltliveChat/${param.id}`)
         .then((res) => {
           console.log(res.data);
-          setlivestraming(false);
+          axiosConfig
+            .get(`/user/disConnectLiveStream/${param.id}`)
+            .then((res) => {
+              console.log(res.data);
+              window.close();
+            })
+            .catch((err) => {
+              console.log(err.response);
+            });
+          // window.close();
         })
         .catch((err) => {
           console.log(err.response);
@@ -65,13 +71,9 @@ function YourliveStream() {
 
   const handlestatus = (e) => {
     e.preventDefault();
-    debugger;
-    console.log(param.id);
-    const astroid = localStorage.getItem("astroId");
+
     const payload = {
-      // astroAccount: astroid,
-      astroAccount: "1",
-      // astroAccount: param.id,
+      astroAccount: param.id,
       status: true,
     };
 
@@ -83,7 +85,7 @@ function YourliveStream() {
           if (res.data.msg === "already exists") {
             setToken(res.data?.token);
             setliveId(res.data?._id);
-            localStorage.setItem("liveid", res.data?._id);
+            localStorage.setItem("liveid", res.data?.id);
             setchannelName(res.data?.channelName);
             setlivestraming(true);
           }
@@ -106,26 +108,46 @@ function YourliveStream() {
         });
     }
     if (Status === "Deactive") {
+      // debugger;
+      axiosConfig
+        .delete(`/user/dltliveChat/${param.id}`)
+        .then((res) => {
+          console.log(res.data);
+          window.close();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+      window.close();
       localStorage.removeItem("astrotokenforlivestream");
     }
   };
 
   const handleofflinestreaming = () => {
-    const liveidnew = localStorage.getItem("liveid");
-    console.log(liveidnew);
+    // debugger;
+    // window.close();
+
     axiosConfig
-      // .get(`/user/disConnectLiveStream/${liveidnew}`)
-      .get(`/user/disConnectLiveStream/1`)
+      .delete(`/user/dltliveChat/${param.id}`)
       .then((res) => {
+        // debugger;
         console.log(res.data);
+        axiosConfig
+          .get(`/user/disConnectLiveStream/${param.id}`)
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            // debugger;
+            console.log(err.response);
+          });
+
         window.close();
-        // setlivestraming(false);
-        // localStorage.removeItem("liveid");
-        // window.location.replace("/");
       })
       .catch((err) => {
         console.log(err.response);
       });
+    window.close();
   };
   return (
     <div className="videocallmain mt-2">
@@ -134,7 +156,7 @@ function YourliveStream() {
           <Col lg="4" md="4" sm="4">
             <div className="container mt-2 mb-1">
               <Button onClick={(e) => handlestatus(e)} color="success">
-                liveStreaming Now
+                Start Live
               </Button>
             </div>
           </Col>
@@ -212,7 +234,7 @@ function YourliveStream() {
                     }}
                   >
                     <div>
-                      <LiveChat />
+                      <LiveChat sellerid={param.id} />
                     </div>
                   </div>
                 </div>

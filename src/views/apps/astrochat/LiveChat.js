@@ -3,10 +3,11 @@ import { Button, Col, Container, Row } from "reactstrap";
 import "../../assets/scss/chat.scss";
 
 import axiosConfig from "../../../axiosConfig";
-import { SlCallOut } from "react-icons/sl";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import swal from "sweetalert";
+// import { SlCallOut } from "react-icons/sl";
+// import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+// import swal from "sweetalert";
 import LiveChatAppMassage from "./LiveChatAppMassage";
+import images from "../../../assets/img/profile/post-media/25.jpg";
 
 class ChatApp extends React.Component {
   constructor(props) {
@@ -16,12 +17,12 @@ class ChatApp extends React.Component {
     this.callmsg = React.createRef();
 
     this.state = {
+      roomChatData: [],
       Index: "",
       data: {},
       sendbutton: "",
       Activeastro: {},
       CurrentRoomid: "",
-      roomChatData: [],
       userId: "",
       astroId: "",
       msg: "hello",
@@ -30,14 +31,14 @@ class ChatApp extends React.Component {
   }
 
   handleliveChat = () => {
+    let id = this.props?.sellerid;
+
+    localStorage.setItem("sellerid", id);
     setInterval(() => {
-      const astroId = localStorage.getItem("astroId");
       axiosConfig
-        .get(`/user/liveChat_byseller/1`)
-        // .get(`/user/liveChat_byseller/${astroId}`)
+        .get(`/user/liveChat_byseller/${id}`)
         .then((res) => {
-          console.log(res.data);
-          this.setState({ roomChatData: res?.data.data });
+          this.setState({ roomChatData: res.data?.data });
         })
         .catch((err) => {
           console.log(err);
@@ -46,37 +47,19 @@ class ChatApp extends React.Component {
   };
 
   componentDidMount = () => {
+    let id = this.props?.sellerid;
+
     this.handleliveChat();
-    console.log(this.props);
-    // const astroId = localStorage.getItem("astroId");
-
-    // axiosConfig
-    //   .get(`/admin/getoneAstro/${astroId}`)
-    //   .then((res) => {
-    //     console.log(res.data.data);
-    //     this.setState({ Activeastro: res?.data?.data });
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-
-    // let user_id = JSON.parse(localStorage.getItem("user_id"));
+    axiosConfig
+      .get(`/user/liveChat_byseller/${id}`)
+      .then((res) => {
+        console.log(res.data?.data);
+        this.setState({ roomChatData: res.data?.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
-
-  // handlechat = () => {
-  //   console.log(this.state.roomId);
-  //   axiosConfig
-  //     .get(`/user/allchatwithuser/${this.state.roomId}`)
-  //     .then((response) => {
-  //       console.log(response?.data?.data);
-  //       if (response.data.status === true) {
-  //         this.setState({ roomChatData: response?.data.data });
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
   // submitHandler = async (e, astroId, userId) => {
   //   e.preventDefault();
@@ -136,11 +119,7 @@ class ChatApp extends React.Component {
             <div className="chat-header">
               <p>
                 <span>
-                  <img
-                    // src={this.state.Activeastro?.img}
-                    className="app-img"
-                    alt="image"
-                  />
+                  <img src={images} className="app-img" alt="image" />
                 </span>
                 {/* {this.state.Activeastro?.fullname} */}
               </p>
@@ -148,7 +127,7 @@ class ChatApp extends React.Component {
             <div class="messages-history">
               <LiveChatAppMassage
                 roomChatData={
-                  this.state.roomChatData.length > 0
+                  this.state.roomChatData && this.state.roomChatData?.length > 0
                     ? this.state.roomChatData
                     : []
                 }

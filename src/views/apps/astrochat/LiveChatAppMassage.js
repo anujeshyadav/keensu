@@ -9,46 +9,50 @@ class ChatAppMassage extends React.Component {
   }
 
   render() {
-    console.log("props value", this.props.roomChatData);
+    // debugger;
+    // console.log("props value", this.props.roomChatData);
     return (
       <>
-        {this.props.roomChatData.length
+        {this.props.roomChatData && this.props.roomChatData.length
           ? this.props.roomChatData
               .map((chat, index) => {
+                {
+                  /* console.log(chat); */
+                }
                 return (
                   <>
-                    {chat.type === "user" ? (
+                    {/* {chat.type === "user" ? ( 
                       <div class="message me">
-                        <div class="message-body">{chat.msg}</div>
+                        <div class="message-body">{chat?.msg}</div>
                       </div>
-                    ) : (
-                      <>
-                        <div className="message">
-                          <div class="message-body">
-                            <Row>
-                              <Col lg="4">
+                    ) : ( */}
+                    <>
+                      <div key={index} className="message">
+                        <div class="message-body">
+                          <Row>
+                            {/* <Col lg="4">
                                 <img
                                   style={{ borderRadius: "50%" }}
                                   width="40px"
                                   height="40px"
                                   src={chat?.userid?.userimg[0]}
                                 />
-                              </Col>
-                              <Col lg="8">
-                                <Row>
-                                  <h6 className="container">
-                                    <b> {chat?.userid?.fullname}</b>
-                                  </h6>
-                                </Row>
-                                <Row>
-                                  <h6 className="container">{chat.msg}</h6>
-                                </Row>
-                              </Col>
-                            </Row>
-                          </div>
+                              </Col> */}
+                            <Col lg="12">
+                              <Row>
+                                <h6 className="container">
+                                  <b>{chat?.username}</b>
+                                </h6>
+                              </Row>
+                              <Row>
+                                <h6 className="container">{chat?.msg}</h6>
+                              </Row>
+                            </Col>
+                          </Row>
                         </div>
-                      </>
-                    )}
+                      </div>
+                    </>
+                    {/* )} */}
                   </>
                 );
               })

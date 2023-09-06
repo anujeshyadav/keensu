@@ -481,7 +481,8 @@ class AppRouter extends React.Component {
         <HashRouter>
           <Switch>
             {/*<AppRoute exact={true} path="/" component={home} fullLayout /> */}
-            <AppRoute exact={true} path="/" component={analyticsDashboard} />
+            {/* <AppRoute exact={true} path="/" component={analyticsDashboard} /> */}
+            <AppRoute fullLayout exact={true} path="/" component={error404} />
             <AppRoute
               exact={true}
               path="/ecommerce-dashboard"
