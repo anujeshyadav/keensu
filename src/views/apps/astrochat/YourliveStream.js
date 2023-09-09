@@ -12,6 +12,7 @@ function YourliveStream() {
   const [channelNamecreated, setchannelName] = useState("");
   const [Status, setStatus] = useState("");
   const [Token, setToken] = useState("");
+  const [Paramid, setParamid] = useState("");
   const [Addcall, setAddcall] = useState(false);
   const [livestraming, setlivestraming] = useState(false);
 
@@ -35,6 +36,7 @@ function YourliveStream() {
   };
 
   useEffect(() => {
+    setParamid(param.id);
     const handlePopstate = () => {
       window.history.pushState(null, null, window.location.pathname);
     };
@@ -47,25 +49,30 @@ function YourliveStream() {
   }, []);
 
   const callbacks = {
+    // ["user-left"]: (user) => {
+    //   window.close();
+    // },
     EndCall: () => {
       axiosConfig
-        .delete(`/user/dltliveChat/${param.id}`)
+        .delete(`/user/dltliveChat/${Paramid}`)
         .then((res) => {
           console.log(res.data);
-          axiosConfig
-            .get(`/user/disConnectLiveStream/${param.id}`)
-            .then((res) => {
-              console.log(res.data);
-              window.close();
-            })
-            .catch((err) => {
-              console.log(err.response);
-            });
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+      axiosConfig
+        .get(`/user/disConnectLiveStream/${Paramid}`)
+        .then((res) => {
+          console.log(res.data);
+          setVideoCall(false);
+
           // window.close();
         })
         .catch((err) => {
           console.log(err.response);
         });
+      window.close();
     },
   };
 
@@ -73,7 +80,7 @@ function YourliveStream() {
     e.preventDefault();
 
     const payload = {
-      astroAccount: param.id,
+      astroAccount: Paramid,
       status: true,
     };
 
@@ -108,41 +115,43 @@ function YourliveStream() {
         });
     }
     if (Status === "Deactive") {
-      // debugger;
       axiosConfig
-        .delete(`/user/dltliveChat/${param.id}`)
+        .delete(`/user/dltliveChat/${Paramid}`)
         .then((res) => {
           console.log(res.data);
-          window.close();
+          // window.close();
         })
         .catch((err) => {
           console.log(err.response);
         });
-      window.close();
+      axiosConfig
+        .get(`/user/disConnectLiveStream/${Paramid}`)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
       localStorage.removeItem("astrotokenforlivestream");
+      window.close();
     }
   };
 
   const handleofflinestreaming = () => {
-    // debugger;
-    // window.close();
-
     axiosConfig
-      .delete(`/user/dltliveChat/${param.id}`)
+      .delete(`/user/dltliveChat/${Paramid}`)
       .then((res) => {
-        // debugger;
         console.log(res.data);
-        axiosConfig
-          .get(`/user/disConnectLiveStream/${param.id}`)
-          .then((res) => {
-            console.log(res.data);
-          })
-          .catch((err) => {
-            // debugger;
-            console.log(err.response);
-          });
 
-        window.close();
+        // window.close();
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+    axiosConfig
+      .get(`/user/disConnectLiveStream/${Paramid}`)
+      .then((res) => {
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err.response);
@@ -151,7 +160,7 @@ function YourliveStream() {
   };
   return (
     <div className="videocallmain mt-2">
-      <Card>
+      <Card className="livesellerdiv">
         <Row className="mt-2">
           <Col lg="4" md="4" sm="4">
             <div className="container mt-2 mb-1">
@@ -186,8 +195,8 @@ function YourliveStream() {
                     <Input
                       value="Deactive"
                       onClick={(e) => {
-                        setStatus(e.target.value);
                         handleofflinestreaming();
+                        setStatus(e.target.value);
                       }}
                       name="radio1"
                       type="radio"
