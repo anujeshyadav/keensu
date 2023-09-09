@@ -465,13 +465,13 @@ const AppRoute = connect(mapStateToProps)(RouteConfig);
 class AppRouter extends React.Component {
   componentDidMount() {
     let data = localStorage.getItem("astroId");
-    sessionStorage.clear();
-    if (data === undefined || data === null) {
-      // history.push("/#/pages/login");
-      // localStorage.clear();
-      // window.location.replace("/#/pages/login");
-      // window.location.reload();
-    }
+    // sessionStorage.clear();
+    // if (data === undefined || data === null) {
+    // history.push("/#/pages/login");
+    // localStorage.clear();
+    // window.location.replace("/#/pages/login");
+    // window.location.reload();
+    // }
   }
   render() {
     return (
