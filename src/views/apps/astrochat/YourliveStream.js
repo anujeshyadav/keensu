@@ -52,8 +52,11 @@ function YourliveStream() {
     // ["user-left"]: (user) => {
     //   window.close();
     // },
-    EndCall: () => {
-      axiosConfig
+
+    EndCall: async () => {
+      debugger;
+      console.log(param.id);
+      await axiosConfig
         .delete(`/user/dltliveChat/${Paramid}`)
         .then((res) => {
           console.log(res.data);
@@ -61,7 +64,7 @@ function YourliveStream() {
         .catch((err) => {
           console.log(err.response);
         });
-      axiosConfig
+      await axiosConfig
         .get(`/user/disConnectLiveStream/${Paramid}`)
         .then((res) => {
           console.log(res.data);
