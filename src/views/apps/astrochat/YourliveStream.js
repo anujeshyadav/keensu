@@ -54,7 +54,6 @@ function YourliveStream() {
     // },
 
     EndCall: async () => {
-      debugger;
       console.log(param.id);
       await axiosConfig
         .delete(`/user/dltliveChat/${Paramid}`)
@@ -79,7 +78,7 @@ function YourliveStream() {
     },
   };
 
-  const handlestatus = (e) => {
+  const handlestatus = async (e) => {
     e.preventDefault();
 
     const payload = {
@@ -88,7 +87,7 @@ function YourliveStream() {
     };
 
     if (Status === "Active") {
-      axiosConfig
+      await axiosConfig
         .post(`/user/astroLiveStreaming`, payload)
         .then((res) => {
           console.log(res.data?.data);
@@ -118,7 +117,7 @@ function YourliveStream() {
         });
     }
     if (Status === "Deactive") {
-      axiosConfig
+      await axiosConfig
         .delete(`/user/dltliveChat/${Paramid}`)
         .then((res) => {
           console.log(res.data);
@@ -127,7 +126,7 @@ function YourliveStream() {
         .catch((err) => {
           console.log(err.response);
         });
-      axiosConfig
+      await axiosConfig
         .get(`/user/disConnectLiveStream/${Paramid}`)
         .then((res) => {
           console.log(res.data);
@@ -140,8 +139,8 @@ function YourliveStream() {
     }
   };
 
-  const handleofflinestreaming = () => {
-    axiosConfig
+  const handleofflinestreaming = async () => {
+    await axiosConfig
       .delete(`/user/dltliveChat/${Paramid}`)
       .then((res) => {
         console.log(res.data);
@@ -151,7 +150,7 @@ function YourliveStream() {
       .catch((err) => {
         console.log(err.response);
       });
-    axiosConfig
+    await axiosConfig
       .get(`/user/disConnectLiveStream/${Paramid}`)
       .then((res) => {
         console.log(res.data);
