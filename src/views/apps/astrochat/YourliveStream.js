@@ -143,8 +143,7 @@ function YourliveStream() {
     await axiosConfig
       .delete(`/user/dltliveChat/${Paramid}`)
       .then((res) => {
-        console.log(res.data);
-
+        // console.log(res.data);
         // window.close();
       })
       .catch((err) => {
@@ -223,7 +222,7 @@ function YourliveStream() {
                     border: "1px solid black",
                     borderRadius: "8px",
                   }}
-                  className="maindivstream container mt-3 mb-3"
+                  className="maindivstream container mt-3 mb-3 "
                 >
                   <div
                     style={{
